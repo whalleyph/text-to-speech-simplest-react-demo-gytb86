@@ -4,12 +4,23 @@ import './style.css';
 
 export default function App() {
   const [sentence, setSentence] = useState('Can you hear me?');
+  const [randomRoll, setRandomRoll] = useState(0);
+
+  function chooseMessage(randomNumber) {
+    if (randomNumber < 0.1) {
+      return new window.SpeechSynthesisUtterance(
+        "YOU CAN'T TELL ME WHAT TO DO!"
+      );
+    } else {
+      return new window.SpeechSynthesisUtterance(sentence);
+    }
+  }
 
   function handleSayClicked() {
-    const utterance = new SpeechSynthesisUtterance(
-      "YOU CAN'T TELL ME WHAT TO DO. Just kidding!" + sentence
-    );
+    const newRandomRoll = Math.random();
+    const utterance = chooseMessage(newRandomRoll);
     speechSynthesis.speak(utterance);
+    setRandomRoll(newRandomRoll);
   }
 
   function handleInputChange(event) {
